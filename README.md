@@ -1,5 +1,5 @@
-# docker-rpi-nas
-Dockerfiles for building NAS on Raspberry Pi
+# docker-rpi
+Dockerfiles for Raspberry Pi
 
 ## Webdav
 Thanks for `morrisjobke` who has built a popular Webdav docker for Ubuntu.
