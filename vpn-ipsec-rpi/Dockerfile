@@ -1,5 +1,5 @@
 FROM resin/rpi-raspbian
-MAINTAINER Lin Song <linsongui@gmail.com>
+MAINTAINER Solomon Xie <14041622+solomonxie@users.noreply.github.com>
 
 ENV REFRESHED_AT 2017-03-23
 ENV SWAN_VER 3.20
