@@ -1,7 +1,7 @@
-# docker-rpi
-Dockerfiles for Raspberry Pi
+# WebDAV container
 
-## Webdav
-Thanks for `morrisjobke` who has built a popular Webdav docker for Ubuntu.
-So I just slightly changed a bit just to fit in Raspberry Pi, and it worked so well.
-Refer to [`morrisjobke/webdav`](https://github.com/MorrisJobke/owncloud-docker) for more information.
+You can run this container in following way. You can then access the WebDAV instance at `http://localhost:8888/webdav`. Internally the folder `/var/webdav` is used as WebDAV root.
+
+```
+docker run -d --restart always -v ~/share:/var/webdav -e USERNAME=test -e PASSWORD=test -p 8888:80 solomonxie/webdav-rpi
+```
