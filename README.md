@@ -1,7 +1,5 @@
-# docker-rpi
-Dockerfiles for Raspberry Pi
+# IPsec VPN Server on Docker on Raspberry PI
 
-## Webdav
-Thanks for `morrisjobke` who has built a popular Webdav docker for Ubuntu.
-So I just slightly changed a bit just to fit in Raspberry Pi, and it worked so well.
-Refer to [`morrisjobke/webdav`](https://github.com/MorrisJobke/owncloud-docker) for more information.
+original docker image has different CPU instruction set, so just change and based from raspberry pi image
+
+refer https://github.com/hwdsl2/docker-ipsec-vpn-server
