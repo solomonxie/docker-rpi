@@ -1,23 +1,32 @@
-# Dockerfile for https://github.com/mar10/wsgidav/
-# Build:
-#   docker build --rm -f Dockerfile -t mar10/wsgidav .
-# Run:
-#   docker run --rm -it -p <PORT>:8080 -v <ROOT_FOLDER>:/var/wsgidav-root mar10/wsgidav
-# for example
-#   docker run --rm -it -p 8080:8080 -v c:/temp:/var/wsgidav-root mar10/wsgidav
-# Then open (or enter this URL in Windows File Explorer or any other WebDAV client)
-#   http://localhost:8080/
+FROM resin/rpi-raspbian:jessie
+MAINTAINER Solomon Xie <solomonxiewise@gmail.com>
 
-# NOTE 2018-07-28: alpine does not compile lxml
-# NOTE 2018-08-28: latest python:3-alpine docker build now compiles lxml successfully
-FROM python:3.7-slim-stretch
+COPY config/sources-cn.list /etc/apt/sources.list
+RUN apt-get update
 
-# Compile dependencies to pip install lxml (including alpine musl libc)
-RUN apk --no-cache add gcc libxslt-dev musl-dev
 
-RUN pip install --no-cache-dir wsgidav cheroot lxml
-RUN mkdir -p /var/wsgidav-root
+# Install python & pip
+RUN apt-get install python3 && \
+    curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py
 
-EXPOSE 8080
+# Install wsgidav & relative packages
+RUN pip install --no-cache-dir wsgidav cheroot && \
+    mkdir -p /var/wsgidav/config
 
-CMD wsgidav --host 0.0.0.0 --port 8080 --root /var/wsgidav-root --no-config
+#  Dependencies for compiling lxml
+#RUN apt-get install gcc libxslt1-dev musl-dev -y
+#: Bug, doesn't work. Without lxml the wsgidav can works well
+#RUN pip install --no-cache-dir lxml
+
+# Clean cache
+RUN apt-get autoremove && \
+    apt-get clean
+
+COPY config/wsgidav.yaml /var/wsgidav/config/
+
+VOLUME /var/wsgidav
+EXPOSE 80
+
+#CMD wsgidav --host 0.0.0.0 --port 8080 --root /var/wsgidav/ --no-config
+CMD wsgidav -c /var/wsgidav/config/wsgidav.yaml
