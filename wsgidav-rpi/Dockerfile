@@ -1,15 +1,14 @@
-FROM resin/raspberry-pi-alpine-python:3-slim
-
+FROM resin/rpi-raspbian:jessie
 MAINTAINER Solomon Xie <solomonxiewise@gmail.com>
-# Thanks to mar10/wsgidav
 
-# Compile dependencies to pip install lxml (including alpine musl libc)
-RUN apk --no-cache add gcc libxslt-dev musl-dev
-
+RUN apt-get update && \
+    apt-get install python3 && \
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py 
 RUN pip install --no-cache-dir wsgidav cheroot
-RUN mkdir -p /var/wsgidav/root
 
 EXPOSE 80
-VOLUME /var/wsgidav/root
+RUN mkdir -p /var/wsgidav
+VOLUME /var/wsgidav
 
-CMD wsgidav --host 0.0.0.0 --port 80 --root /var/wsgidav/root --no-config
+CMD wsgidav -c /var/wsgidav/config/wsgidav.yaml
