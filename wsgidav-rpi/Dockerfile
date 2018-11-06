@@ -4,18 +4,24 @@ MAINTAINER Solomon Xie <solomonxiewise@gmail.com>
 COPY config/sources-cn.list /etc/apt/sources.list
 RUN apt-get update
 
-# Compile dependencies to pip install lxml
-RUN apt-get install gcc libxslt1-dev musl-dev && \
-    pip install lxml
 
 # Install python & pip
 RUN apt-get install python3 && \
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python3 get-pip.py 
+    curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py
 
 # Install wsgidav & relative packages
 RUN pip install --no-cache-dir wsgidav cheroot && \
     mkdir -p /var/wsgidav/config
+
+#  Dependencies for compiling lxml
+#RUN apt-get install gcc libxslt1-dev musl-dev -y
+#: Bug, doesn't work. Without lxml the wsgidav can works well
+#RUN pip install --no-cache-dir lxml
+
+# Clean cache
+RUN apt-get autoremove && \
+    apt-get clean
 
 COPY config/wsgidav.yaml /var/wsgidav/config/
 
