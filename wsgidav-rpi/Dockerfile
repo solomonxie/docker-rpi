@@ -1,4 +1,4 @@
-FROM resin/armv7hf-python:3-slim
+FROM resin/raspberry-pi-alpine-python:3-slim
 
 MAINTAINER Solomon Xie <14041622+solomonxie@users.noreply.github.com>
 # Thanks to mar10/wsgidav
