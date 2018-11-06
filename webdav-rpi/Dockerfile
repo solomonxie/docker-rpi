@@ -1,5 +1,5 @@
 FROM resin/rpi-raspbian:jessie
-MAINTAINER solomonxie@foxmail.com
+MAINTAINER Solomon Xie <solomonxie@foxmail.com>
 
 COPY sources.list /etc/apt/
 
