@@ -4,7 +4,6 @@ MAINTAINER Solomon Xie <14041622+solomonxie@users.noreply.github.com>
 COPY config/sources-cn.list /etc/apt/sources.list
 RUN apt-get update
 
-
 # Install python & pip
 RUN apt-get install python3 && \
     curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
