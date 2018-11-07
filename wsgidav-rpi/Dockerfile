@@ -14,10 +14,11 @@ RUN apt-get install python3 && \
 RUN pip install --no-cache-dir wsgidav cheroot && \
     mkdir -p /var/wsgidav/config
 
-#  Dependencies for compiling lxml
-#RUN apt-get install gcc libxslt1-dev musl-dev -y
+# Dependencies for compiling lxml
+# https://lxml.de/installation.html
 #: Bug, doesn't work. Without lxml the wsgidav can works well
-#RUN pip install --no-cache-dir lxml
+RUN apt-get install libxml2-dev libxslt-dev python-dev python3-lxml && \
+    pip install --no-cache-dir lxml
 
 # Clean cache
 RUN apt-get autoremove && \

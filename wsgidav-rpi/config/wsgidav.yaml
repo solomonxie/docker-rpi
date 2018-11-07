@@ -19,7 +19,8 @@ port: 80
 #: Application root, applied before provider mapping shares,
 #: e.g. <mount_path>/<share_name>/<res_path>
 #: supports relative path
-mount_path: null  # root_path, NULL by default
+#mount_path: "/var/wsgidav/webdav"  # root_path, NULL by default
+mount_path: null
 provider_mapping:
     "/webdav": "/var/wsgidav/webdav"
     "/share": "/var/wsgidav/share"
@@ -58,34 +59,37 @@ user_mapping:
 
 server: "cheroot"
 server_args: {}
-
 verbose: 3
+
+# Property Manager
+# null: (default) Don't support dead properties
+# true: Use in-memory property manager (NOT persistent)
 property_manager: true
+
+#:
+lock_manager: true
+
+#:Enable to allow clients to use e.g. the touch or cp / rsync commands with the
 mutable_live_props:
     - "{DAV:}getlastmodified"
-emulate_win32_lastmod: true
 
-lock_manager: true
+#:Handle Microsoft's Win32LastModifiedTime property.
+emulate_win32_lastmod: true
 
 #: Has to add, or can't connect with Mac/Cyberduck/Windows
 add_header_MS_Author_Via: true  
+
+#: Issues fixer
 unquote_path_info: false #: See issue #8
 re_encode_path_info: null #: (See issue #73)
 
-#: BUG, Not working!
-#middleware_stack:
-    #- wsgidav.debug_filter.WsgiDavDebugFilter
-    #- wsgidav.error_printer.ErrorPrinter
-    #- wsgidav.http_authenticator.HTTPAuthenticator
-    #- wsgidav.dir_browser.WsgiDavDirBrowser
-    #- wsgidav.request_resolver.RequestResolver
-
+#:WsgiDavDirBrowser
 dir_browser:
     ignore:
-        - ".DS_Store"  # macOS folder meta data
-        - "Thumbs.db"  # Windows image previews
-        - "._*"  # macOS hidden data files
-    icon: true
+        - ".DS_Store"
+        - "Thumbs.db"
+        - "._*"
+    icon: true #:Display WsgiDAV icon in header
     show_user: true
     davmount: false
     ms_mount: false
@@ -100,3 +104,11 @@ http_authenticator:
     trusted_auth_header: null
     preset_domain: null
     preset_server: null
+
+#: BUG, none works
+#middleware_stack:
+#    - wsgidav.debug_filter.WsgiDavDebugFilter
+#    - wsgidav.error_printer.ErrorPrinter
+#    - wsgidav.http_authenticator.HTTPAuthenticator
+#    - wsgidav.dir_browser.WsgiDavDirBrowser
+#    - wsgidav.request_resolver.RequestResolver
