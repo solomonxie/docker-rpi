@@ -10,7 +10,7 @@ RUN apt-get update && \
 
 EXPOSE 80
 
-VOLUME /var/apache2/sites-available
+VOLUME /var/apache2/sites-enabled
 VOLUME /var/webdav
 
 ADD run.sh /

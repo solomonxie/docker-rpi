@@ -18,9 +18,10 @@ chown www-data /var/webdav
 # Enable Site Definition in the conf file
 a2ensite webdav
 
-# Authorization
+# Authorization: setup user & password
 htpasswd -cb /etc/apache2/webdav.password $USERNAME $PASSWORD
 chown root:www-data /etc/apache2/webdav.password
 chmod 640 /etc/apache2/webdav.password
 
+# Run Apache server
 apache2 -D FOREGROUND
